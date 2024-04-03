@@ -2,7 +2,7 @@
 #define  MEMORYSPACE_HPP
 
 #include <sys/mman.h>
-#include <sys/stat.h>        /* For mode constants */
+#include <sys/stat.h>     
 #include <fcntl.h>  
 #include <semaphore.h>
 
@@ -16,9 +16,9 @@ struct memorySpace {
     int in;
     int out;
 
-    sem_t sem;
-    sem_t empty;
-    sem_t full;
+    sem_t mutexLock;
+    sem_t isNotFull;
+    sem_t isNotEmpty;
 };
 
 #endif // MEMORYSPACE_HPP
