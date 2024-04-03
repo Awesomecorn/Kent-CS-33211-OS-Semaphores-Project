@@ -7,8 +7,8 @@
 #include <semaphore.h>
 
 
-const int TABLE_SIZE = 2;
-const char *SHMPATH = "/SHM";
+#define TABLE_SIZE 2
+const char *SHMPATH = "shmfile";
 
 struct memorySpace {
     int table[TABLE_SIZE];

@@ -1,5 +1,5 @@
-#include "./consumer.hpp";
-#include "./memoryspace.hpp";
+#include "./consumer.hpp"
+#include "./memoryspace.hpp"
 
 
 int main(int argc, char *argv[]){
@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
 
     consMem = (struct memorySpace *)mmap(NULL, sizeof(*consMem), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 
-    for (size_t i = 0; i < 10; i++)
+    for (size_t i = 0; i < 4; i++)
     {
         sem_wait(&consMem->full);
         sem_wait(&consMem->sem);
@@ -21,6 +21,10 @@ int main(int argc, char *argv[]){
 
         sem_post(&consMem->sem);
         sem_post(&consMem->empty);
+
+
     }
     
+
+    return 0;
 }
