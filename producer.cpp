@@ -3,13 +3,15 @@
 
 
 int main(int argc, char *argv[]){
+    int fd;
     struct memorySpace *producerMem;
 
-    int fd = shm_open(SHMPATH, O_RDWR, 0);
-    std::cout << "fd: " << fd << std::endl;
+    fd = shm_open("shmpath", O_CREAT | O_EXCL |O_RDWR, 0600);
+
+
     ftruncate(fd, sizeof(*producerMem));
 
-    producerMem = (struct memorySpace *)mmap(NULL, sizeof(*producerMem), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    producerMem = static_cast<memorySpace*>(mmap(NULL, sizeof(*producerMem), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0));
 
     sem_init(&(producerMem->sem), 1,1);
     
@@ -17,11 +19,14 @@ int main(int argc, char *argv[]){
     
     sem_init(&(producerMem->empty), 1, TABLE_SIZE);
 
-    for (size_t i = 0; i < 4; i++)
+    producerMem->in = 0;
+    producerMem->out = 0;
+
+    for (size_t i = 0; i < 10; i++)
     {
         sem_wait(&producerMem->empty);
         sem_wait(&producerMem->sem);
-        int randomValue = rand() % 100;
+        int randomValue = i;
         std::cout << "Produced: " << randomValue << std::endl;
 
         producerMem->table[producerMem->in] = randomValue;
@@ -31,8 +36,10 @@ int main(int argc, char *argv[]){
 
         sem_post(&producerMem->sem);
         sem_post(&producerMem->full);
+        sleep(5);
     }
     
+    shm_unlink("shmpath");
 
     return 0;
 }
