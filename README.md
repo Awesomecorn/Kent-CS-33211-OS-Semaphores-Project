@@ -45,4 +45,4 @@ Consumed: 9
 This ensures that the table is full when it can be and the consumer gets to consume every item.
 
 
-(For clarity this README file has been edited by chatGPT for spell, grammar and clarity. There is also an uneditedREADME should you prefer that.)
+(For clarity this README file has been edited by chatGPT for spelling, grammar and clarity. There is also an uneditedREADME should you prefer that.)
